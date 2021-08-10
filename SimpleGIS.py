@@ -28,11 +28,11 @@ f.close()
 map_width = 400
 map_height = 300
 
-state = 'Colorado'
-points = states[state]['coordinates'][0]
+# state = 'Colorado'
+# points = states[state]['coordinates'][0]
 
-# state = 'California'
-# points = states[state]['coordinates'][10][0]
+state = 'California'
+points = states[state]['coordinates'][10][0]
 
 minx = 180
 maxx = -180
@@ -70,7 +70,7 @@ def convert(point):
     
 
 dataframe = pandas.read_csv('uscities.csv')
-top5_colorado_cities = dataframe.loc[dataframe['state_name'] == 'Colorado'].sort_values(by=['population'], ascending=False).head(5)[['city', 'lat', 'lng', 'population']]
+top5_colorado_cities = dataframe.loc[dataframe['state_name'] == state].sort_values(by=['population'], ascending=False).head(5)[['city', 'lat', 'lng', 'population']]
     
 
 t.up()
