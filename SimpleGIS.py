@@ -1,5 +1,8 @@
+#!/usr/bin/env python3
+
 import turtle as t
 import json
+import pandas
 
 states = dict()
   
@@ -25,11 +28,11 @@ f.close()
 map_width = 400
 map_height = 300
 
-# state = 'Colorado'
-# points = states[state]['coordinates'][0]
+state = 'Colorado'
+points = states[state]['coordinates'][0]
 
-state = 'California'
-points = states[state]['coordinates'][10][0]
+# state = 'California'
+# points = states[state]['coordinates'][10][0]
 
 minx = 180
 maxx = -180
@@ -66,6 +69,10 @@ def convert(point):
     return [x,y]
     
 
+dataframe = pandas.read_csv('uscities.csv')
+top5_colorado_cities = dataframe.loc[dataframe['state_name'] == 'Colorado'].sort_values(by=['population'], ascending=False).head(5)[['city', 'lat', 'lng', 'population']]
+    
+
 t.up()
 first_pixel = None
 for point in points:
@@ -79,7 +86,19 @@ t.goto(first_pixel)
 t.up()
 t.goto([0,0])
 t.write(state, align="center", font=("Arial",16,"bold"))
-    
+
+
+
+for index, row in top5_colorado_cities.iterrows():
+    pixel = convert([row['lng'], row['lat']])
+    t.up()
+    t.goto(pixel)
+    # Place a point for the city
+    t.dot(10)
+    # Label the city
+    t.write(row['city'] + ", Pop.: " + str(row['population']), align="left")
+    t.up()
+
     
 t.done()
 
